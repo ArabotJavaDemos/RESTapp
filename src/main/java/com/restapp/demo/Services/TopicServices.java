@@ -1,5 +1,6 @@
 package com.restapp.demo.Services;
 
+import com.restapp.demo.Data.Topics;
 import org.springframework.stereotype.Service;
 import sun.font.CreatedFontTracker;
 
@@ -10,11 +11,16 @@ import java.util.List;
 
 // calling Services to make instance of Topics ((Injection / Singleton))
 @Service
-public class Topics {
+public class TopicServices {
 
-    private List<String> myTopics = new ArrayList<>(Arrays.asList("games", "sport", "movies"));
+    private List<Topics> myTopics = new ArrayList<>(Arrays.asList(
+            new Topics("ahmad" , "22" , "game"),
+            new Topics("ali" , "32" , "movies"),
+            new Topics("danial" , "12" , "reading")
+    ));
 
-    public List<String> showAll(){
+
+    public List<Topics> showAll(){
         return myTopics;
     }
 
@@ -22,12 +28,12 @@ public class Topics {
         return myTopics.contains(name.toLowerCase())? name.toLowerCase() : "Not Found!";
     }
 
-    public String addMethod(String topic){
+    public String addMethod(Topics topic){
         myTopics.add(topic);
         return "Added True";
     }
 
-    public String update( int id , String value) {
+    public String update( int id , Topics value) {
         myTopics.set(id , value);
         return "updated !";
     }
