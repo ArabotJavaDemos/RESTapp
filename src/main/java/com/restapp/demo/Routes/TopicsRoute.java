@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class TopicsRoute {
@@ -21,27 +22,26 @@ public class TopicsRoute {
 
     // using prams
     @GetMapping("/topics/{name}")
-    public String getName(@PathVariable String name){
+    public Optional<Topics> getName(@PathVariable String name){
         return service.getOne(name);
     }
 
     //post request
     @PostMapping("/topics")
-    public String postMethod(@RequestBody Topics data){
-        System.out.println("@@@@@@@@@@@@");
-        System.out.println(data);
+    public Topics postMethod(@RequestBody Topics data){
         return service.addMethod(data);
     }
 
     //put request
     @PutMapping("/topics/{id}")
-    public String update(@PathVariable int id , @RequestBody Topics data){
+    public Topics update(@PathVariable String id , @RequestBody Topics data){
         return service.update(id , data) ;
     }
 
     // delete Request
     @DeleteMapping("/topics/{id}")
-    public String delete(@PathVariable int id){
-        return service.delete(id);
+    public String delete(@PathVariable String id){
+        service.delete(id);
+        return "done";
     }
 }

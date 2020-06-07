@@ -1,45 +1,47 @@
 package com.restapp.demo.Services;
 
+import com.restapp.demo.Data.TopicRepo;
 import com.restapp.demo.Data.Topics;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.font.CreatedFontTracker;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 // calling Services to make instance of Topics ((Injection / Singleton))
 @Service
 public class TopicServices {
 
-    private List<Topics> myTopics = new ArrayList<>(Arrays.asList(
-            new Topics("ahmad" , "22" , "game"),
-            new Topics("ali" , "32" , "movies"),
-            new Topics("danial" , "12" , "reading")
-    ));
+    @Autowired
+    private TopicRepo topicRepo ;
 
 
     public List<Topics> showAll(){
-        return myTopics;
+        List<Topics> result = new ArrayList<>();
+
+        // using java reference
+        topicRepo.findAll().forEach(result::add);
+        return result ;
     }
 
-    public String getOne(String name){
-        return myTopics.contains(name.toLowerCase())? name.toLowerCase() : "Not Found!";
+
+    public Optional<Topics> getOne(String name){
+//        return myTopics.contains(name.toLowerCase())? name.toLowerCase() : "Not Found!";
+        return topicRepo.findById(name);
     }
 
-    public String addMethod(Topics topic){
-        myTopics.add(topic);
-        return "Added True";
+    public Topics addMethod(Topics topic){
+        return topicRepo.save(topic); //returned the saved entity;
     }
 
-    public String update( int id , Topics value) {
-        myTopics.set(id , value);
-        return "updated !";
+    public Topics update( String id , Topics value) {
+        return topicRepo.save(value);
     }
 
-    public String delete(int id) {
-        myTopics.remove(id);
-        return "deleted!" ;
+    public void delete(String id) {
+        topicRepo.deleteById(id);
     }
 }

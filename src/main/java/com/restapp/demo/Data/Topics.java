@@ -1,9 +1,13 @@
 package com.restapp.demo.Data;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 
-
+// to create a table
+@Entity
 public class Topics {
 
+    @Id
     private String name ;
     private String age ;
     private String fav;
@@ -13,6 +17,8 @@ public class Topics {
         this.age = age;
         this.fav = fav;
     }
+
+    public Topics(){}
 
     public String getName() {
         return name;
